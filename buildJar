@@ -1,0 +1,3 @@
+#!/bin/bash
+rm SimpleTools.jar
+jar cfv SimpleTools.jar src docs -C bin .
