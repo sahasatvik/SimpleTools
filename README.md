@@ -10,7 +10,7 @@ Alternatively, go to the [documentation here](http://htmlpreview.github.io/?http
 ## How to Use this library in your Project
 There are two ways of using this library :
 
-1. **Using the uncompressed `.class` files :** simply copy the contents of `bin/` from the repository or `SimpleTools.jar`
+1. **Using the uncompressed `.class` files :** simply copy the contents of `bin/` from the repository or `SimpleToolsComplete.jar`
 into the your project directory, and import the required classes (eg. to import all of the classes in the `com/satvik/args`
 folder, use `import com.satvik.args.*;`. Compile as normal.
 

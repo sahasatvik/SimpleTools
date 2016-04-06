@@ -38,7 +38,7 @@ package com.satvik.args;
  *							// by calling help.getState()
  *	Integer minVal = min.getValue();		// The value of min.getValue() can be stored 
  *							// directly in minVal, due to the use of generics
- *	Integer maxVal = max.getValue()			// If no value has been set, the default value
+ *	Integer maxVal = max.getValue();		// If no value has been set, the default value
  *							// specified will be returned
  *	
  *	.
@@ -50,6 +50,7 @@ package com.satvik.args;
  *
  * 	@author		Satvik Saha
  * 	@version	1.1, 04/05/2016
+ * 	@param	<T>	the type of value the Flag can hold - use a raw type if you need a normal Flag without a value
  * 	@see		com.satvik.args.ArgHandler
  * 	@since		1.0
  */
@@ -206,7 +207,7 @@ public class Flag<T> {
 	 */
 
 	public void setParsedValue (String rawValue) throws FlagException {
-		if (canHaveValue) {
+		if (canHaveValue && (rawValue.length() > 0)) {
 			try {
 				value = Parser.<T>parse(rawValue, valueTypeClass);
 			} catch(NumberFormatException e) {

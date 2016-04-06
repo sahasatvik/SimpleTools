@@ -2,23 +2,24 @@
 package com.satvik.args;
 
 /**
- * This class parses a String into an object of type T.
+ * This class provides static methods for parsing objects into one another.
  *
  * 	@author		Satvik Saha
  * 	@version	1.0, 04/06/2016
  * 	@since		1.0
  */
 
-class Parser {
+public class Parser {
 	
 	/**
-	 * This method accepts the Strong to parse and the class of the target type. It returns
+	 * This method accepts a String to parse and the class of the target type. It returns
 	 * the parsed String in the form of T.
 	 *
+	 * 	@param	<T>		the target type
 	 * 	@param	rawValue	the string to be parsed
-	 * 	@param	clazz		the class of the target type
+	 * 	@param	clazz		the class of the target type - use T.class
 	 * 	@return			the converted string in the form of T
-	 * 	@throws	NumberFormatException
+	 * 	@throws	NumberFormatException	thrown if the target class is not recognized
 	 * 	@since	1.0
 	 */
 
