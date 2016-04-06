@@ -2,7 +2,7 @@
 A library of simple tools written in Java by me, which aim at providing a common base for projects in the future.
 
 ## Features
-The `docs/` folder in this repository, as well as in `SimpleTools.jar` contains an extensive documentation of all of the 
+The `docs/` folder in this repository, as well as in `SimpleToolsComplete.jar` contains an extensive documentation of all of the 
 features of every class in the library. You can start at `docs/index.html`.
 
 Alternatively, go to the [documentation here](http://htmlpreview.github.io/?http://github.com/sahasatvik/SimpleTools/master/docs/index.html).
