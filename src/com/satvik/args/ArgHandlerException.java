@@ -2,7 +2,7 @@
 package com.satvik.args;
 
 /**
- * ArgHandlerException is the superclass of all Exceptions related to ArgHandler. Methods in ArgHandler
+ * This is the superclass of all Exceptions related to ArgHandler. Methods in ArgHandler
  * can throw Exceptions which are subclasses of ArgHandlerException.
  *
  * 	@author		Satvik Saha

@@ -2,7 +2,7 @@
 package com.satvik.args;
 
 /**
- * FlagException is the superclass of all Exceptions related to the parsing of flags in ArgHandler.
+ * This is the superclass of all Exceptions related to the parsing of flags in ArgHandler.
  *
  * 	@author		Satvik Saha
  * 	@version	1.0, 04/03/2016

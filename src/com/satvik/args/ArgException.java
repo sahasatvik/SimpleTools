@@ -2,7 +2,7 @@
 package com.satvik.args;
 
 /**
- * ArgException is the superclass of all Exceptions related to the parsing of arguments in ArgHandler.
+ * This is the superclass of all Exceptions related to the parsing of arguments in ArgHandler.
  *
  * 	@author		Satvik Saha
  * 	@version	1.0, 04/03/2016

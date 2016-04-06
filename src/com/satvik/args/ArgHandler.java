@@ -2,10 +2,10 @@
 package	com.satvik.args;
 
 /**
- * ArgHandler is a class which parses command line arguments, and enables simple retrieval
- * of flags and arguments. Any class which needs to use this library must create an ArgHandler
- * object, and pass to it an array of arguments, a matrix/table of synonimous
- * 'short' and 'long' flags, as well as the minimum number of arguments (excluding flags).
+ * This class parses command line arguments, and enables simple retrieval of flags and arguments. 
+ * Any class which needs to use this library must create an ArgHandler object, and pass to it an 
+ * array of arguments, a matrix/table of synonimous 'short' and 'long' flags, as well as the minimum 
+ * number of arguments (excluding flags).
  * <p>
  * Flags are separated from arguments : any String starting with '-' is a 'short' flag, while 
  * those starting with '--' are long flags. Short flags can be grouped together : '-abc' is 
@@ -85,24 +85,10 @@ package	com.satvik.args;
 
 public class ArgHandler {
 	
-	/**
-	 * Boolean array storing the state of flags, indexed by the flag character.
-	 */
 	private boolean[] flags;
-	
-	/**
-	 * Matrix of Strings, representing synonimous forms of the same flag.
-	 */
 	private String[][] flagTable;
 	
-	/**
-	 * String array, storing the elements of the queue of arguments. 
-	 */
 	private String[] arguments;
-	
-	/**
-	 * String array, storing the elements of the queue of unprocessed arguments and flags.
-	 */
 	private String[] rawArgs;
 	private int minArgs;
 	
@@ -111,7 +97,7 @@ public class ArgHandler {
 	private String unknownFlags;
 	
 	/**
-	 * Constructor of ArgHandler. Here, the array of arguments, table of flags and the number 
+	 * This is the only constructor of ArgHandler. Here, the array of arguments, table of flags and the number 
 	 * of required arguments are passed to ArgHandler(String[], String[][], int). The arguments will
 	 * be processed and flags separated and stored in a boolean array.
 	 *
