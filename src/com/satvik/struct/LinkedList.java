@@ -50,12 +50,16 @@ public class LinkedList<T> {
 
 	public ListItem<T> getListItemAt (int index) throws ListIndexOutOfBoundsException {
 		ListItem<T> t = head;
-		if (index <= size && index >= 0) {
+		if (index < size && index >= 0) {
 			while (index >= 0) {
 				t = t.right;
 				index--;
 			}
 			return t;
+		} else if (index == -1) {
+			return head;
+		} else if (index == size) {
+			return tail;
 		} else {
 			throw new ListIndexOutOfBoundsException(index);
 		}
@@ -72,6 +76,10 @@ public class LinkedList<T> {
 	 * 	@since	1.0
 	 */
 	public T getItemAt (int index) throws ListIndexOutOfBoundsException {
+		ListItem<T> t = getListItemAt(index);
+		if (t.isHead || t.isTail) {
+			throw new ListIndexOutOfBoundsException(index);
+		}
 		return getListItemAt(index).item;
 	}
 
@@ -110,8 +118,8 @@ public class LinkedList<T> {
 	public void pushItemAt (T item, int index) throws ListIndexOutOfBoundsException {
 		if (index <= size && index >= 0) {
 			ListItem<T> m = new ListItem<>(item);
-			ListItem<T> r = getListItemAt(index);
-			ListItem<T> l = r.left;
+			ListItem<T> l = getListItemAt((index-1));
+			ListItem<T> r = l.right;
 			ListItem.<T>link(l, m);
 			ListItem.<T>link(m, r);
 			size++;
