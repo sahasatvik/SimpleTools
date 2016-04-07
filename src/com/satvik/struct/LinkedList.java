@@ -43,11 +43,12 @@ public class LinkedList<T> {
 	 *
 	 * 	@param	index		the index from which the ListItem is to be fetched
 	 * 	@return			the ListItem at index
+	 * 	@throws	com.satvik.struct.ListIndexOutOfBoundsException	thrown if the index is out of bounds
 	 * 	@see	com.satvik.struct.ListItem
 	 * 	@since	1.0
 	 */
 
-	public ListItem<T> getListItemAt (int index) {
+	public ListItem<T> getListItemAt (int index) throws ListIndexOutOfBoundsException {
 		ListItem<T> t = head;
 		if (index <= size && index >= 0) {
 			while (index >= 0) {
@@ -55,8 +56,9 @@ public class LinkedList<T> {
 				index--;
 			}
 			return t;
+		} else {
+			throw new ListIndexOutOfBoundsException(index);
 		}
-		return tail;
 	}
 
 
@@ -66,9 +68,10 @@ public class LinkedList<T> {
 	 *
 	 * 	@param	index		the index from which the item is to be fetched
 	 * 	@return			the item at index 
+	 * 	@throws	com.satvik.struct.ListIndexOutOfBoundsException	thrown if the index is out of bounds
 	 * 	@since	1.0
 	 */
-	public T getItemAt (int index) {
+	public T getItemAt (int index) throws ListIndexOutOfBoundsException {
 		return getListItemAt(index).item;
 	}
 
@@ -100,10 +103,11 @@ public class LinkedList<T> {
 	 *
 	 * 	@param	item		the item to be pushed to the index
 	 * 	@param	index		the index at which the item is to be placed
+	 * 	@throws	com.satvik.struct.ListIndexOutOfBoundsException	thrown if the index is out of bounds
 	 * 	@since	1.0
 	 */
 
-	public void pushItemAt (T item, int index) {
+	public void pushItemAt (T item, int index) throws ListIndexOutOfBoundsException {
 		if (index <= size && index >= 0) {
 			ListItem<T> m = new ListItem<>(item);
 			ListItem<T> r = getListItemAt(index);
@@ -111,6 +115,8 @@ public class LinkedList<T> {
 			ListItem.<T>link(l, m);
 			ListItem.<T>link(m, r);
 			size++;
+		} else {
+			throw new ListIndexOutOfBoundsException(index);
 		}
 	}
 
@@ -122,16 +128,22 @@ public class LinkedList<T> {
 	 *
 	 * 	@param	index		the index of the item to be popped.
 	 * 	@return			the item at the given index
+	 * 	@throws	com.satvik.struct.ListException	thrown if the index is out of bounds
 	 * 	@since	1.0
 	 */
 
-	public T popItemAt (int index) {
+	public T popItemAt (int index) throws ListException {
+		if (size == 0) {
+			throw new EmptyListException();
+		}
 		ListItem<T> t = getListItemAt(index);
 		if (index < size && index >= 0) {
 			ListItem<T> l = t.left;
 			ListItem<T> r = t.right;
 			ListItem.<T>link(l, r);
 			size--;
+		} else {
+			throw new ListIndexOutOfBoundsException(index);	
 		}
 		return t.item;
 	}
