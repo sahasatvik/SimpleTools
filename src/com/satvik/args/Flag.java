@@ -199,10 +199,10 @@ public class Flag<T> {
 
 	/**
 	 * This method sets the value of the Flag to the 'value type' form of rawValue. If rawValue cannot
-	 * be converted to the value type of the Flag, an Exceptio is thrown.
+	 * be converted to the value type of the Flag, an Exception is thrown.
 	 *
 	 * 	@param	rawValue		the raw String to be processed into an Object of class valueType
-	 * 	@throws	FlagException		if there is an error in prsing the raw String, or the Flag cannot carry  value
+	 * 	@throws	FlagException		thrown if there is an error in prsing the raw String, or the Flag cannot carry  value
 	 * 	@since	1.0
 	 */
 
@@ -224,7 +224,7 @@ public class Flag<T> {
 	 * This method returns the value of the Flag, if set previously. If not, and Exception is thrown.
 	 *
 	 * 	@return				the value stored in Flag
-	 * 	@throws	FlagException		if the Flag is empty, or cannot carry a value
+	 * 	@throws	FlagException		thrown if the Flag is empty, or cannot carry a value
 	 * 	@since	1.0
 	 */
 

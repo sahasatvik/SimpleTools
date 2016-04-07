@@ -2,14 +2,54 @@
 package com.satvik.args;
 
 /**
- * This class provides static methods for parsing objects into one another.
+ * This interface provides methods for parsing objects into one another. As this is
+ * a functional interface, one can create their own functions for parsing Strings 
+ * into other objects via lambda expressions. For example :
+ * <pre>{@code
+ *		.
+ *		.
+ *		.
+ *
+ *		Parser<Integer, NumberFormatException> toInt = (s) -> (Integer.parseInt(s));
+ *		
+ *		.
+ *		.
+ *		.
+ *
+ *		try {
+ *			Integer i = toInt.parse("1");
+ *		} catch (NumberFormatException e) {
+ *			.
+ *			.
+ *			.
+ *		}
+ * }</pre>
  *
  * 	@author		Satvik Saha
- * 	@version	1.0, 04/06/2016
+ * 	@version	1.1, 04/07/2016
+ * 	@param	<T>	the target type into which strings are to be parsed 
+ * 	@param	<X>	the Exception thrown if there is a problem in parsing
  * 	@since		1.0
  */
 
-public class Parser {
+@FunctionalInterface
+public interface Parser<T, X extends Exception> {
+	
+	/**
+	 * This method must be overriden in the implementing class, or can be used via
+	 * lambda expressions. The implementation of {@code parse(String)} must return 
+	 * an object belonging to the type parameter used in the inherited class or the
+	 * lambda expression declaration.
+	 *
+	 * 	@param	s		the string to be parsed 
+	 * 	@return			an object of the same type as the type parameter
+	 * 	@throws	X		thrown if the implementation does not catch all Exceptions
+	 * 	@since	1.1
+	 */
+
+	public T parse (String s) throws X;
+	
+	
 	
 	/**
 	 * This method accepts a String to parse and the class of the target type. It returns
