@@ -25,10 +25,13 @@ package com.satvik.args;
  *							// no value can be queried from it using 
  *							// flag.getValue() : attempting to 
  *							// do so throws a FlagException
- *	Flag<Integer> min = new Flag<>("-m", "--min", Integer.class);
+ *	Flag<Integer> min = new Flag<Integer>("-m", "--min").canHaveValue(true)
+ *							    .setValueType(Integer.class);
  *							// This Flag may be assigned an Integer by 
  *							// ArgHandler while processing
- *	Flag<Integer> max = new Flag<>("-M", "--max", Integer.class, 10);
+ *	Flag<Integer> max = new Flag<Integer>("-M", "--max").canHaveValue(true)
+ *							    .setValueType(Integer.class)
+ *							    .setDefaultValue(10);
  *							// This Flag also has a default value of 10
  *	.
  *	.						// Create an ArgHandler and pass the Flags to it
@@ -67,7 +70,11 @@ public class Flag<T> {
 	
 	/** The boolean storing whether the Flag can have a value */
 	boolean canHaveValue;
-	
+	/** The boolean storing whether the value is to be parsed using a parser provided */
+	boolean useParser;
+	/** The parser to use, if provided */
+	Parser<T> parser;
+
 	/** The value assigned to the Flag */
 	public T value;
 	
@@ -77,8 +84,7 @@ public class Flag<T> {
 
 
 	/**
-	 * This is the constructor of Flag which accepts the short and long forms of the Flag. The raw form
-	 * of Flag must be used, as it is implied that the Flag cannot be assigned a value. 
+	 * This is the constructor of Flag which accepts the short and long forms of the Flag.
 	 * 	
 	 * 	@param	shortForm	the short form of the Flag
 	 * 	@param	longForm	the long form of the Flag
@@ -90,13 +96,28 @@ public class Flag<T> {
 		this.longForm = longForm;
 		this.state = false;
 		this.canHaveValue = false;
+		this.useParser = false;
+	}
+
+
+
+	/**
+	 * This method sets whether the Flag can be assigned a value or not.
+	 *
+	 * 	@param	canHaveValue		true/false, depending on whther the Flag can be assigned a value
+	 * 	@return				this Flag
+	 * 	@since	1.2
+	 */
+
+	public Flag<T> canHaveValue (boolean canHaveValue) {
+		this.canHaveValue = canHaveValue;
+		return this;
 	}
 	
 	
-	
 	/**
-	 * This is the constructor of Flag which accepts the short and long forms of the Flag, as 
-	 * well as it's value type's class. The value type class must be one of the following : <br>
+	 * This method accepts the Flag's value type's class. 
+	 * The value type class must be one of the following : <br>
 	 * <pre>{@code
 	 *	Character.class
 	 *	String.class
@@ -109,52 +130,70 @@ public class Flag<T> {
 	 * }</pre><br>
 	 * Any value type class other than the above will throw an InvalidFlagTypeException.
 	 * 	
-	 * 	@param	shortForm		the short form of the FlagWithValue
-	 * 	@param	longForm		the long form of the FlagWithValue
 	 * 	@param	valueTypeClass		the class of the type of value which can be assigned to the FlagWithValue
+	 * 	@return				this Flag
 	 * 	@throws	FlagException		thrown if valueTypeClass does not belong to the list of accepted classes
-	 * 	@see	com.satvik.args.Flag#Flag(String, String)
 	 * 	@since	1.0
 	 */
 
-	public Flag (String shortForm, String longForm, Class<T> valueTypeClass) throws FlagException {
-		this(shortForm, longForm);
-		this.canHaveValue = true;
-		this.valueTypeClass = valueTypeClass;
-		switch (this.valueTypeClass.getName()) {
-			case "java.lang.Character":
-			case "java.lang.String"	:
-			case "java.lang.Byte"	:
-			case "java.lang.Short"	:
-			case "java.lang.Integer":
-			case "java.lang.Long"	:
-			case "java.lang.Float"	:
-			case "java.lang.Double" :
-				break;
-			default :
-				throw new FlagException("Unknown flagValueType " + this.valueTypeClass.getSimpleName() + " assigned to flag " + this.longForm);
+	public Flag<T> setValueType (Class<T> valueTypeClass) throws FlagException {
+		if (canHaveValue) {
+			this.valueTypeClass = valueTypeClass;
+			switch (this.valueTypeClass.getName()) {
+				case "java.lang.Character":
+				case "java.lang.String"	:
+				case "java.lang.Byte"	:
+				case "java.lang.Short"	:
+				case "java.lang.Integer":
+				case "java.lang.Long"	:
+				case "java.lang.Float"	:
+				case "java.lang.Double" :
+					this.useParser = false;
+					break;
+				default :
+					throw new FlagException("Unknown flagValueType " + this.valueTypeClass.getSimpleName() + " assigned to flag " + this.longForm);
+			}
+		} else {
+			throw new FlagException("Flag " + longForm + " cannot have a value !");
 		}
+		return this;
 	}
-
+	
 
 
 	/**
-	 * This is the constructor of Flag which accepts the short and long forms of the Flag, as 
-	 * well as it's value type's class and a default value.
+	 * This method sets a Parser for the Flag's value. This allows you to define your own way of converting
+	 * a String into another Object and apply this to the Flag value.
+	 *
+	 * 	@param	parser			the parser to be used while parsing the Flag value
+	 * 	@return				this Flag
+	 * 	@throws	com.satvik.args.FlagException	thrown if canHaveValue is false
+	 * 	@since	1.2
+	 */
+
+	public Flag<T> useParser (Parser<T> parser) throws FlagException {
+		if (canHaveValue) {
+			this.useParser = true;
+			this.parser = parser;
+		} else {
+			throw new FlagException("Flag " + longForm + " cannot have a value !");
+		}
+		return this;
+	}
+	
+
+	
+	/**
+	 * This method sets a default value to the Flag.
 	 * 	
-	 * 	@param	shortForm		the short form of the FlagWithValue
-	 * 	@param	longForm		the long form of the FlagWithValue
-	 * 	@param	valueTypeClass		the class of the type of value which can be assigned to the FlagWithValue
 	 * 	@param	defaultValue		the defaultValue assigned to the Flag
-	 * 	@throws	FlagException		thrown if valueTypeClass does not belong to the list of accepted classes
-	 * 	@see	com.satvik.args.Flag#Flag(String, String, Class)
-	 * 	@see	com.satvik.args.Flag#Flag(String, String)
+	 * 	@return				this Flag
 	 * 	@since	1.0
 	 */
 
-	public Flag (String shortForm, String longForm, Class<T> valueTypeClass, T defaultValue) throws FlagException {
-		this(shortForm, longForm, valueTypeClass);
+	public Flag<T> setDefaultValue (T defaultValue) {
 		setValue(defaultValue);
+		return this;
 	}
 
 
@@ -206,12 +245,16 @@ public class Flag<T> {
 	 * 	@since	1.0
 	 */
 
-	public void setParsedValue (String rawValue) throws FlagException {
+	public void parseValue (String rawValue) throws FlagException {
 		if (canHaveValue && (rawValue.length() > 0)) {
 			try {
-				value = Parser.<T>parse(rawValue, valueTypeClass);
-			} catch (NumberFormatException e) {
-				throw new FlagException("Value : " + rawValue + " given to " +  longForm + " has a wrong value type! Required : " + valueTypeClass.getSimpleName());
+				if (useParser) {
+					value = parser.parse(rawValue);
+				} else {
+					value = Parser.<T>parse(rawValue, valueTypeClass);
+				}
+			} catch (Exception e) {
+				throw new FlagException("Value : " + rawValue + " cannot be given to flag " +  longForm + " !");
 			}
 		} else {
 			throw new FlagException("Flag " + longForm + " cannot have a value !");
@@ -258,12 +301,27 @@ public class Flag<T> {
 	 * it is either one of the long or short forms. The "=" and subsequent characters are ignored.
 	 *
 	 * 	@param	s			the string to be matched against the Flag
-	 * 	@return				true/false depending on whether s is either long or short forms of the Flag
+	 * 	@return				true/false depending on whether s is the long or short form of the Flag
 	 * 	@since	1.2
 	 */
 
 	public boolean matches (String s) {
 		s = s.substring(0, (s.indexOf("=") == -1)? s.length() : s.indexOf("=")); 
 		return s.equals(shortForm) || s.equals(longForm);
+	}	
+	
+
+
+	/**
+	 * This method returns whether the character passed to it is a representation of this Flag, ie, 
+	 * it is the second characterof the short form. The "=" and subsequent characters are ignored.
+	 *
+	 * 	@param	c			the character to be matched against the Flag
+	 * 	@return				true/false depending on whether c is the short form of the Flag
+	 * 	@since	1.2
+	 */
+
+	public boolean matches (char c) {
+		return c == shortForm.charAt(1);
 	}
 } 
