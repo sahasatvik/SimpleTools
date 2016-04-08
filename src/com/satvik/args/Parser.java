@@ -10,7 +10,7 @@ package com.satvik.args;
  *		.
  *		.
  *
- *		Parser<Integer, NumberFormatException> toInt = (s) -> (Integer.parseInt(s));
+ *		Parser<Integer> toInt = (s) -> (Integer.parseInt(s));
  *		
  *		.
  *		.
@@ -28,12 +28,11 @@ package com.satvik.args;
  * 	@author		Satvik Saha
  * 	@version	1.1, 04/07/2016
  * 	@param	<T>	the target type into which strings are to be parsed 
- * 	@param	<X>	the Exception thrown if there is a problem in parsing
  * 	@since		1.0
  */
 
 @FunctionalInterface
-public interface Parser<T, X extends Exception> {
+public interface Parser<T> {
 	
 	/**
 	 * This method must be overriden in the implementing class, or can be used via
@@ -43,11 +42,11 @@ public interface Parser<T, X extends Exception> {
 	 *
 	 * 	@param	s		the string to be parsed 
 	 * 	@return			an object of the same type as the type parameter
-	 * 	@throws	X		thrown if the implementation does not catch all Exceptions
+	 * 	@throws	Exception	thrown if the implementation of this method throws an Exception
 	 * 	@since	1.1
 	 */
 
-	public T parse (String s) throws X;
+	public T parse (String s) throws Exception;
 	
 	
 	

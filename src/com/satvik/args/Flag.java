@@ -49,7 +49,7 @@ package com.satvik.args;
  * <p>
  *
  * 	@author		Satvik Saha
- * 	@version	1.1, 04/05/2016
+ * 	@version	1.2, 04/08/2016
  * 	@param	<T>	the type of value the Flag can hold - use a raw type if you need a normal Flag without a value
  * 	@see		com.satvik.args.ArgHandler
  * 	@since		1.0
@@ -210,7 +210,7 @@ public class Flag<T> {
 		if (canHaveValue && (rawValue.length() > 0)) {
 			try {
 				value = Parser.<T>parse(rawValue, valueTypeClass);
-			} catch(NumberFormatException e) {
+			} catch (NumberFormatException e) {
 				throw new FlagException("Value : " + rawValue + " given to " +  longForm + " has a wrong value type! Required : " + valueTypeClass.getSimpleName());
 			}
 		} else {
@@ -235,5 +235,35 @@ public class Flag<T> {
 			throw new FlagException("Flag " + longForm + " cannot have a value !");
 		}
 		return value;
+	}
+
+
+
+	/**
+	 * This method extracts the value after a "=" present in a String, and returns it.
+	 *
+	 * 	@param	rawValue		the raw string from which the value is to be extracted
+	 * 	@return				the value present after the "=" symbol in rawValue
+	 * 	@since	1.2
+	 */
+
+	public static String extractValue (String rawValue) {
+		return rawValue.substring((rawValue.indexOf("=") == -1)? rawValue.length() : (rawValue.indexOf("=") + 1), rawValue.length());
+	}
+	
+	
+	
+	/**
+	 * This method returns whether the String passed to it is a representation of this Flag, ie, 
+	 * it is either one of the long or short forms. The "=" and subsequent characters are ignored.
+	 *
+	 * 	@param	s			the string to be matched against the Flag
+	 * 	@return				true/false depending on whether s is either long or short forms of the Flag
+	 * 	@since	1.2
+	 */
+
+	public boolean matches (String s) {
+		s = s.substring(0, (s.indexOf("=") == -1)? s.length() : s.indexOf("=")); 
+		return s.equals(shortForm) || s.equals(longForm);
 	}
 } 
