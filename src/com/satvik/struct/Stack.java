@@ -17,12 +17,15 @@ public class Stack<T> extends LinkedList<T> {
 	 * This method pushes an item to the end of the stack.
 	 *
 	 * 	@param	item		the item to be pushed
-	 * 	@throws	com.satvik.struct.ListException	thrown if there is an error in carrying out the operation
 	 * 	@since	1.0
 	 */
 
-	public void push (T item) throws ListException {
-		super.pushItemAt(item, size);
+	public void push (T item) {
+		try {
+			super.pushItemAt(item, size);
+		} catch (ListException e) {
+			System.out.println(e);
+		}
 	}
 
 	

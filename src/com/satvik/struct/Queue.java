@@ -17,12 +17,15 @@ public class Queue<T> extends LinkedList<T> {
 	 * This method pushes an item to the beginning of the queue.
 	 *
 	 * 	@param	item		the item to be pushed
-	 * 	@throws	com.satvik.struct.ListException	thrown if there is an error in carrying out the operation
 	 * 	@since	1.0
 	 */
 
-	public void push (T item) throws ListException {
-		super.pushItemAt(item, 0);
+	public void push (T item) {
+		try {
+			super.pushItemAt(item, size);
+		} catch (ListException e) {
+			System.out.println(e);
+		}
 	}
 
 	
@@ -36,6 +39,6 @@ public class Queue<T> extends LinkedList<T> {
 	 */
 
 	public T pop () throws ListException {
-		return super.popItemAt((size-1));
+		return super.popItemAt(0);
 	}
 }

@@ -32,9 +32,24 @@ package com.satvik.args;
  *	Flag<Integer> max = new Flag<Integer>("-M", "--max").canHaveValue(true)
  *							    .setValueType(Integer.class)
  *							    .setDefaultValue(10);
- *							// This Flag also has a default value of 10
+ *							// This Flag will have a default value of 10, if no
+ *							// value is set by ArgHandler
+ *	Flag<String> capsName = new Flag<String>("-n", "--name").canHaveValue(true)
+ *								.useParser((s) -> (s.toUpperCase()));
+ *							// This flag uses a lambda expression for 
+ *							// Parser<T>, to parse the name into upperCase.
+ *							// This means that while setting the value of the Flag,
+ *							// the raw String is parsed by the parser specified above,
+ *							// which is a lambda expression here for brevity.
+ *							
+ *	try {
+ *		ArgHandler a = new ArgHandler(args).useFlags(help, min, max, cpasName);
+ *							// Create an ArgHandler and pass the Flags to it
+ *	} catch (ArgException e) {
+ *
+ *	} catch ( . . .
  *	.
- *	.						// Create an ArgHandler and pass the Flags to it
+ *	.						// Continue catching all Exceptions
  *	.
  *	
  *	Boolean needsHelp = help.getState();		// The state of the Flag can be retrieved 
@@ -42,7 +57,7 @@ package com.satvik.args;
  *	Integer minVal = min.getValue();		// The value of min.getValue() can be stored 
  *							// directly in minVal, due to the use of generics
  *	Integer maxVal = max.getValue();		// If no value has been set, the default value
- *							// specified will be returned
+ *	String name = capsName.hetValue()		// specified will be returned
  *	
  *	.
  *	.
@@ -88,10 +103,21 @@ public class Flag<T> {
 	 * 	
 	 * 	@param	shortForm	the short form of the Flag
 	 * 	@param	longForm	the long form of the Flag
+	 * 	@throws	com.satvik.args.FlagException	thrown if there is s syntax error while invoking the constructor
 	 * 	@since	1.0
 	 */
 
-	public Flag (String shortForm, String longForm) {
+	public Flag (String shortForm, String longForm) throws FlagException {
+		if (shortForm.length() != 2) {
+			throw new FlagException("The length of shortForm must be exactly 2 characters !");
+		} else if (shortForm.charAt(0) != '-') {
+			throw new FlagException("The shortForm must start with a '-' !");
+		} else if (shortForm.charAt(1) == '-') {
+			throw new FlagException("The shortForm cannot be '--' !");
+		} else if (longForm.charAt(0) != '-' || longForm.charAt(1) != '-') {
+			throw new FlagException("The longForm must start with '--' !");
+		}
+
 		this.shortForm = shortForm;
 		this.longForm = longForm;
 		this.state = false;
@@ -256,7 +282,7 @@ public class Flag<T> {
 			} catch (Exception e) {
 				throw new FlagException("Value : " + rawValue + " cannot be given to flag " +  longForm + " !");
 			}
-		} else {
+		} else if (!canHaveValue && (rawValue.length() > 0)) {
 			throw new FlagException("Flag " + longForm + " cannot have a value !");
 		}
 	}
