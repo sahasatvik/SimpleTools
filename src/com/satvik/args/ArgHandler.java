@@ -55,7 +55,7 @@ import com.satvik.struct.*;
  *	try {
  *		ArgHandler a = new ArgHandler(args).useFlags(help, min, max, cpasName);
  *							// Create an ArgHandler and pass the Flags to it
- *	} catch (ArgException e) {
+ *	} catch (ArgumentException e) {
  *
  *	} catch ( . . .
  *		.
@@ -130,11 +130,11 @@ public class ArgHandler {
 	 * 	@param	flags			the array of valid Flags to be used
 	 * 	@return				this ArgHandler
 	 * 	@throws	com.satvik.args.InvalidFlagException	thrown if an invalid Flag is found
-	 *	@throws	Exception		thrown if a value assigned to a Flag cannot be parsed properly
+	 *	@throws	com.satvik.args.FlagException		thrown if a value assigned to a Flag cannot be parsed properly
 	 *	@since	2.0
 	 */
 	
-	public ArgHandler useFlags (Flag<?> ... flags) throws Exception {
+	public ArgHandler useFlags (Flag<?> ... flags) throws FlagException {
 		for (Flag<?> f : flags) {
 			this.flags.push(f);
 		}
@@ -144,7 +144,7 @@ public class ArgHandler {
 		return this;
 	}
 
-	private void processFlags (String s) throws Exception {
+	private void processFlags (String s) throws FlagException {
 		Flag f;
 		if (s.charAt(0) == '-') {
 			if (s.charAt(1) == '-') {
@@ -260,15 +260,15 @@ public class ArgHandler {
 	 * Returns the first argument in the queue, then pops it out.
 	 *
 	 * 	@return				first argument in the queue
-	 * 	@throws	com.satvik.args.ArgException	thrown if no arguments are left in the queue 
+	 * 	@throws	com.satvik.args.NoRemainingArgumentsException	thrown if no arguments are left in the queue 
 	 * 	@since	1.2
 	 */
 
-	public String next () throws ArgException {
+	public String next () throws NoRemainingArgumentsException {
 		try {
 			return arguments.pop().getValue();
 		} catch (ListException e) {
-			throw new ArgException("No arguments left in the Queue !");
+			throw new NoRemainingArgumentsException();
 		}
 	}
 
@@ -283,14 +283,15 @@ public class ArgHandler {
 	 * 	@param	<T>			the target type
 	 * 	@param	clazz			the class of the target type
 	 * 	@return				the first argument which can be parsed a 'clazz'
-	 * 	@throws	com.satvik.args.ArgException	thrown if no argument is found
+	 * 	@throws	com.satvik.args.NoRemainingArgumentsException	thrown if no argument is found
+	 * 	@throws	com.satvik.args.NoArgumentOfRequiredTypeFoundException	thrown if no parsable arguments are left
 	 * 	@see	com.satvik.args.Argument#getValue(Class)
 	 * 	@since	2.0
 	 */
 	
-	public <T> T next (Class<T> clazz) throws ArgException {
+	public <T> T next (Class<T> clazz) throws NoRemainingArgumentsException, NoArgumentOfRequiredTypeFoundException {
 		if (!hasMoreArgs()) {
-			throw new ArgException("No arguments left in the Queue !");
+			throw new NoRemainingArgumentsException();
 		}
 		int argCount = argCount();
 		int i = 0;
@@ -304,7 +305,7 @@ public class ArgHandler {
 				i++;
 			}
 		}
-		throw new ArgException("No argument of class " + clazz.getName() + " found !");
+		throw new NoArgumentOfRequiredTypeFoundException(clazz);
 	}
 
 
@@ -318,15 +319,16 @@ public class ArgHandler {
 	 * 	@param	<T>			the target type
 	 * 	@param	parser			the parser to be used
 	 * 	@return				the first argument which can be parsed by 'parser'
-	 * 	@throws	com.satvik.args.ArgException	thrown if no argument is found
+	 * 	@throws	com.satvik.args.NoRemainingArgumentsException	thrown if no argument is found
+	 * 	@throws	com.satvik.args.NoArgumentOfRequiredTypeFoundException	thrown if no parsable arguments are left
 	 * 	@see	com.satvik.args.Argument#getValue(Parser)
 	 * 	@see	com.satvik.args.Parser#parse(String)
 	 * 	@since	2.0
 	 */
 
-	public <T> T next (Parser<T> parser) throws ArgException {
+	public <T> T next (Parser<T> parser) throws NoRemainingArgumentsException, NoArgumentOfRequiredTypeFoundException {
 		if (!hasMoreArgs()) {
-			throw new ArgException("No arguments left in the Queue !");
+			throw new NoRemainingArgumentsException();
 		}
 		int argCount = argCount();
 		int i = 0;
@@ -340,6 +342,6 @@ public class ArgHandler {
 				i++;
 			}
 		}
-		throw new ArgException("No argument parsable by the given parser found !");	
+		throw new NoArgumentOfRequiredTypeFoundException(parser);	
 	}
 } 

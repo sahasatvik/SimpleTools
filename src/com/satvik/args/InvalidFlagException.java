@@ -6,7 +6,7 @@ package com.satvik.args;
  * Exception is thrown when an unknown flag is present in the unprocessed argument queue.
  *
  * 	@author		Satvik Saha
- * 	@version	1.0, 04/03/2016
+ * 	@version	1.0, 04/09/2016
  * 	@see		com.satvik.args.FlagException
  * 	@see		com.satvik.args.ArgHandlerException
  * 	@since		1.0

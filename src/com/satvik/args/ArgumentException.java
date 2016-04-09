@@ -11,16 +11,16 @@ package com.satvik.args;
  * 
  */
 
-public class ArgException extends ArgHandlerException {
+public class ArgumentException extends ArgHandlerException {
 	
 	/**
-	 * Constructor of ArgException. 
+	 * Constructor of ArgumentException. 
 	 *
 	 * 	@param	message		a brief description of the Exception
 	 * 	@since	1.0
 	 */
 
-	public ArgException (String message) {
+	public ArgumentException (String message) {
 		super("ArgParser : " + message);
 	}
 }

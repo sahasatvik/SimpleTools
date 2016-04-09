@@ -45,7 +45,7 @@ package com.satvik.args;
  *	try {
  *		ArgHandler a = new ArgHandler(args).useFlags(help, min, max, cpasName);
  *							// Create an ArgHandler and pass the Flags to it
- *	} catch (ArgException e) {
+ *	} catch (ArgumentException e) {
  *
  *	} catch ( . . .
  *	.
@@ -103,19 +103,19 @@ public class Flag<T> {
 	 * 	
 	 * 	@param	shortForm	the short form of the Flag
 	 * 	@param	longForm	the long form of the Flag
-	 * 	@throws	com.satvik.args.FlagException	thrown if there is s syntax error while invoking the constructor
+	 * 	@throws	com.satvik.args.IncorrectFlagSyntaxException	thrown if there is s syntax error while invoking the constructor
 	 * 	@since	1.0
 	 */
 
-	public Flag (String shortForm, String longForm) throws FlagException {
+	public Flag (String shortForm, String longForm) throws IncorrectFlagSyntaxException {
 		if (shortForm.length() != 2) {
-			throw new FlagException("The length of shortForm must be exactly 2 characters !");
+			throw new IncorrectFlagSyntaxException("The length of shortForm of " + longForm + "  must be exactly 2 characters !");
 		} else if (shortForm.charAt(0) != '-') {
-			throw new FlagException("The shortForm must start with a '-' !");
+			throw new IncorrectFlagSyntaxException("The shortForm of " + longForm + " must start with a '-' !");
 		} else if (shortForm.charAt(1) == '-') {
-			throw new FlagException("The shortForm cannot be '--' !");
+			throw new IncorrectFlagSyntaxException("The shortForm of " + longForm +" cannot be '--' !");
 		} else if (longForm.charAt(0) != '-' || longForm.charAt(1) != '-') {
-			throw new FlagException("The longForm must start with '--' !");
+			throw new IncorrectFlagSyntaxException("The longForm of " + shortForm + " must start with '--' !");
 		}
 
 		this.shortForm = shortForm;
@@ -158,11 +158,12 @@ public class Flag<T> {
 	 * 	
 	 * 	@param	valueTypeClass		the class of the type of value which can be assigned to the FlagWithValue
 	 * 	@return				this Flag
-	 * 	@throws	FlagException		thrown if valueTypeClass does not belong to the list of accepted classes
+	 * 	@throws	com.satvik.args.UnknownFlagValueTypeException	thrown if valueTypeClass does not belong to the list of accepted classes
+	 * 	@throws	com.satvik.args.CannotParseValueOfFlagException	thrown if the Flag cannot carry a value
 	 * 	@since	1.0
 	 */
 
-	public Flag<T> setValueType (Class<T> valueTypeClass) throws FlagException {
+	public Flag<T> setValueType (Class<T> valueTypeClass) throws UnknownFlagValueTypeException, CannotParseValueOfFlagException {
 		if (canHaveValue) {
 			this.valueTypeClass = valueTypeClass;
 			switch (this.valueTypeClass.getName()) {
@@ -177,10 +178,10 @@ public class Flag<T> {
 					this.useParser = false;
 					break;
 				default :
-					throw new FlagException("Unknown flagValueType " + this.valueTypeClass.getSimpleName() + " assigned to flag " + this.longForm);
+					throw new UnknownFlagValueTypeException(this, valueTypeClass);
 			}
 		} else {
-			throw new FlagException("Flag " + longForm + " cannot have a value !");
+			throw new CannotParseValueOfFlagException(this);
 		}
 		return this;
 	}
@@ -193,16 +194,16 @@ public class Flag<T> {
 	 *
 	 * 	@param	parser			the parser to be used while parsing the Flag value
 	 * 	@return				this Flag
-	 * 	@throws	com.satvik.args.FlagException	thrown if canHaveValue is false
+	 * 	@throws	com.satvik.args.CannotParseValueOfFlagException	thrown if canHaveValue is false
 	 * 	@since	1.2
 	 */
 
-	public Flag<T> useParser (Parser<T> parser) throws FlagException {
+	public Flag<T> useParser (Parser<T> parser) throws CannotParseValueOfFlagException {
 		if (canHaveValue) {
 			this.useParser = true;
 			this.parser = parser;
 		} else {
-			throw new FlagException("Flag " + longForm + " cannot have a value !");
+			throw new CannotParseValueOfFlagException(this);
 		}
 		return this;
 	}
@@ -267,11 +268,11 @@ public class Flag<T> {
 	 * be converted to the value type of the Flag, an Exception is thrown.
 	 *
 	 * 	@param	rawValue		the raw String to be processed into an Object of class valueType
-	 * 	@throws	FlagException		thrown if there is an error in prsing the raw String, or the Flag cannot carry  value
+	 * 	@throws	com.satvik.args.CannotParseValueOfFlagException	thrown if there is an error in prsing the raw String, or the Flag cannot carry  value
 	 * 	@since	1.0
 	 */
 
-	public void parseValue (String rawValue) throws FlagException {
+	public void parseValue (String rawValue) throws CannotParseValueOfFlagException {
 		if (canHaveValue && (rawValue.length() > 0)) {
 			try {
 				if (useParser) {
@@ -280,10 +281,10 @@ public class Flag<T> {
 					value = Parser.<T>parse(rawValue, valueTypeClass);
 				}
 			} catch (Exception e) {
-				throw new FlagException("Value : " + rawValue + " cannot be given to flag " +  longForm + " !");
+				throw new CannotParseValueOfFlagException(this, rawValue);
 			}
 		} else if (!canHaveValue && (rawValue.length() > 0)) {
-			throw new FlagException("Flag " + longForm + " cannot have a value !");
+			throw new CannotParseValueOfFlagException(this);
 		}
 	}
 	
@@ -293,15 +294,16 @@ public class Flag<T> {
 	 * This method returns the value of the Flag, if set previously. If not, and Exception is thrown.
 	 *
 	 * 	@return				the value stored in Flag
-	 * 	@throws	FlagException		thrown if the Flag is empty, or cannot carry a value
+	 * 	@throws	com.satvik.args.MissingFlagValueException	thrown if the Flag is empty
+	 * 	@throws	com.satvik.args.CannotParseValueOfFlagException	thrown if the Flag cannot carry a value
 	 * 	@since	1.0
 	 */
 
-	public T getValue () throws FlagException {
+	public T getValue () throws CannotParseValueOfFlagException, MissingFlagValueException {
 		if (value == null) {
-			throw new FlagException("Flag " + longForm + " not assigned any value !");
+			throw new MissingFlagValueException(this);
 		} else if (!canHaveValue) {
-			throw new FlagException("Flag " + longForm + " cannot have a value !");
+			throw new CannotParseValueOfFlagException(this);
 		}
 		return value;
 	}
