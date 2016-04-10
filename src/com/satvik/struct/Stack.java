@@ -24,7 +24,6 @@ public class Stack<T> extends LinkedList<T> {
 		try {
 			super.pushItemAt(item, size);
 		} catch (ListException e) {
-			System.out.println(e);
 		}
 	}
 
