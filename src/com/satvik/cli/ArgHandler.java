@@ -4,22 +4,22 @@ package	com.satvik.cli;
 import com.satvik.struct.*;
 
 /**
- * This class parses command line arguments, and enables simple retrieval of flags and arguments. 
+ * This class parses command line arguments, and enables simple retrieval of options and arguments. 
  * Any class which needs to use this library must create an ArgHandler object, and pass to it an 
- * array of arguments, as well as a list of Flag objects which can be accepted from the argument array.
+ * array of arguments, as well as a list of Option objects which can be accepted from the argument array.
  * <p>
- * Flags are separated from arguments : any String starting with '-' is a 'short' flag, while 
- * those starting with '--' are long flags. Short flags can be grouped together : '-abc' is 
- * recognized as the group of flags 'a', 'b' and 'c', and processed separately. Each short flag 
- * is associated with it's long version, and thus, they can be used interchangeably. Flags can
- * also carry values attached to them, separated from the flag by an '=' character. These values
- * can also be retrieved separately for each flag.
+ * Options are separated from arguments : any String starting with '-' is a 'short' option, while 
+ * those starting with '--' are long options. Short options can be grouped together : '-abc' is 
+ * recognized as the group of options 'a', 'b' and 'c', and processed separately. Each short option 
+ * is associated with it's long version, and thus, they can be used interchangeably. Options can
+ * also carry values attached to them, separated from the option by an '=' character. These values
+ * can also be retrieved separately for each option.
  * <p>
- * Arguments are the Strings other than flags, and are stored in a queue. They can be popped off
+ * Arguments are the Strings other than options, and are stored in a queue. They can be popped off
  * the beginning, or pushed to the end. Using this library, the next Integer or Double value can
  * also be retrieved and popped.
  * <p>
- * In addition, errors such as the use of unknown flags are detected, and suitable Exceptions are thrown.
+ * In addition, errors such as the use of unknown options are detected, and suitable Exceptions are thrown.
  * <p>
  * An example of ArgHandler's implementation is as follows : 
  * <pre>{@code
@@ -31,30 +31,30 @@ import com.satvik.struct.*;
  * 		.
  * 		. 
  *      
- *	Flag help = new Flag("-h", "--help");		// Normal flag without value. Note that 
+ *	Option help = new Option("-h", "--help");		// Normal option without value. Note that 
  *							// no value can be queried from it using 
- *							// flag.getValue() : attempting to 
- *							// do so throws a FlagException
- *	Flag<Integer> min = new Flag<Integer>("-m", "--min").canHaveValue(true)
+ *							// option.getValue() : attempting to 
+ *							// do so throws a OptionException
+ *	Option<Integer> min = new Option<Integer>("-m", "--min").canHaveValue(true)
  *							    .setValueType(Integer.class);
- *							// This Flag may be assigned an Integer by 
+ *							// This Option may be assigned an Integer by 
  *							// ArgHandler while processing
- *	Flag<Integer> max = new Flag<Integer>("-M", "--max").canHaveValue(true)
+ *	Option<Integer> max = new Option<Integer>("-M", "--max").canHaveValue(true)
  *							    .setValueType(Integer.class)
  *							    .setDefaultValue(10);
- *							// This Flag will have a default value of 10, if no
+ *							// This Option will have a default value of 10, if no
  *							// value is set by ArgHandler
- *	Flag<String> capsName = new Flag<String>("-n", "--name").canHaveValue(true)
+ *	Option<String> capsName = new Option<String>("-n", "--name").canHaveValue(true)
  *								.useParser((s) -> (s.toUpperCase()));
- *							// This flag uses a lambda expression for 
+ *							// This option uses a lambda expression for 
  *							// Parser<T>, to parse the name into upperCase.
- *							// This means that while setting the value of the Flag,
+ *							// This means that while setting the value of the Option,
  *							// the raw String is parsed by the parser specified above,
  *							// which is a lambda expression here for brevity.
  *							
  *	try {
- *		ArgHandler a = new ArgHandler(args).useFlags(help, min, max, cpasName);
- *							// Create an ArgHandler and pass the Flags to it
+ *		ArgHandler a = new ArgHandler(args).useOptions(help, min, max, cpasName);
+ *							// Create an ArgHandler and pass the Options to it
  *	} catch (ArgumentException e) {
  *
  *	} catch ( . . .
@@ -62,7 +62,7 @@ import com.satvik.struct.*;
  *		.					// Continue catching all Exceptions
  *		.
  *	
- *	Boolean needsHelp = help.getState();		// The state of the Flag can be retrieved 
+ *	Boolean needsHelp = help.getState();		// The state of the Option can be retrieved 
  *							// by calling help.getState()
  *	Integer minVal = min.getValue();		// The value of min.getValue() can be stored 
  *							// directly in minVal, due to the use of generics
@@ -92,7 +92,7 @@ import com.satvik.struct.*;
 
 public class ArgHandler {
 	
-	private Queue<Flag<?>> flags;
+	private Queue<Option<?>> options;
 	private Queue<Argument> arguments;
 
 	private String[] rawArgs;
@@ -113,7 +113,7 @@ public class ArgHandler {
 			rawArgs[i] = args[i];
 		}
 
-		flags = new Queue<Flag<?>>();
+		options = new Queue<Option<?>>();
 		arguments = new Queue<Argument>();
 		
 		processArgs();
@@ -122,38 +122,38 @@ public class ArgHandler {
 
 
 	/**
-	 * This method must be called in order to initiate the processing of flags in the array
-	 * of arguments passed earlier. Flag objects created earlier must be passed, which will be midified
-	 * dynamically during processing. Only these flags will be considered to be valid while processing.
-	 * The presence of any flag other than those passed here will trigger a FlagException.
+	 * This method must be called in order to initiate the processing of options in the array
+	 * of arguments passed earlier. Option objects created earlier must be passed, which will be midified
+	 * dynamically during processing. Only these options will be considered to be valid while processing.
+	 * The presence of any option other than those passed here will trigger a OptionException.
 	 *
-	 * 	@param	flags			the array of valid Flags to be used
+	 * 	@param	options			the array of valid Options to be used
 	 * 	@return				this ArgHandler
-	 * 	@throws	com.satvik.cli.InvalidFlagException	thrown if an invalid Flag is found
-	 *	@throws	com.satvik.cli.FlagException		thrown if a value assigned to a Flag cannot be parsed properly
+	 * 	@throws	com.satvik.cli.InvalidOptionException	thrown if an invalid Option is found
+	 *	@throws	com.satvik.cli.OptionException		thrown if a value assigned to a Option cannot be parsed properly
 	 *	@since	2.0
 	 */
 	
-	public ArgHandler useFlags (Flag<?> ... flags) throws FlagException {
-		for (Flag<?> f : flags) {
-			this.flags.push(f);
+	public ArgHandler useOptions (Option<?> ... options) throws OptionException {
+		for (Option<?> f : options) {
+			this.options.push(f);
 		}
 		for (String s : rawArgs) {
-			processFlags(s);
+			processOptions(s);
 		}
 		return this;
 	}
 
-	private void processFlags (String s) throws FlagException {
-		Flag f;
+	private void processOptions (String s) throws OptionException {
+		Option f;
 		if (s.charAt(0) == '-') {
 			if (s.charAt(1) == '-') {
-				f = getFlag(s);
+				f = getOption(s);
 				f.setState(true);
-				f.parseValue(Flag.extractValue(s));
+				f.parseValue(Option.extractValue(s));
 			} else {
 				for (int i = 1; i < s.length(); i++) {
-					f = getFlag(s.charAt(i));
+					f = getOption(s.charAt(i));
 					f.setState(true);
 					if ((i + 1) < s.length()) {
 						if (s.charAt(i+1) == '=') {
@@ -170,22 +170,22 @@ public class ArgHandler {
 
 
 	/**
-	 * This method returns the Flag whose short or long form matches the String passed to 
-	 * it. Note that the Flags collected by useFlags(Flags[]) are used here.
+	 * This method returns the Option whose short or long form matches the String passed to 
+	 * it. Note that the Options collected by useOptions(Options[]) are used here.
 	 *
-	 * 	@param	s			the String to be compared with the Flags
-	 * 	@return				the Flag matching 's', if it exists
-	 * 	@throws	com.satvik.cli.InvalidFlagException	thrown if the Flag matching 's' does not exist
-	 * 	@see	#useFlags(Flag ...)
+	 * 	@param	s			the String to be compared with the Options
+	 * 	@return				the Option matching 's', if it exists
+	 * 	@throws	com.satvik.cli.InvalidOptionException	thrown if the Option matching 's' does not exist
+	 * 	@see	#useOptions(Option ...)
 	 * 	@since	2.0
 	 */
 
-	public Flag<?> getFlag (String s) throws InvalidFlagException {
-		int flagCount = flags.getSize();
-		Flag<?> f;
-		for (int i = 0; i < flagCount; i++) {
+	public Option<?> getOption (String s) throws InvalidOptionException {
+		int optionCount = options.getSize();
+		Option<?> f;
+		for (int i = 0; i < optionCount; i++) {
 			try {
-				f = flags.getItemAt(i);
+				f = options.getItemAt(i);
 				if (f.matches(s)) {
 					return f;
 				}
@@ -194,23 +194,23 @@ public class ArgHandler {
 			}
 
 		}
-		throw new InvalidFlagException("Flag " + s + " not valid !");
+		throw new InvalidOptionException("Option " + s + " not valid !");
 	}
 
 
 
 	/**
-	 * This method returns the Flag whose short form contains the charcter passed to it.
+	 * This method returns the Option whose short form contains the charcter passed to it.
 	 *
-	 * 	@param	c			the character to be compared with the Flags
-	 * 	@return				the Flag matching 'c', if it exists
-	 * 	@throws	com.satvik.cli.InvalidFlagException	thrown if the Flag matching 'c' does not exist
-	 * 	@see	#getFlag(String)
+	 * 	@param	c			the character to be compared with the Options
+	 * 	@return				the Option matching 'c', if it exists
+	 * 	@throws	com.satvik.cli.InvalidOptionException	thrown if the Option matching 'c' does not exist
+	 * 	@see	#getOption(String)
 	 * 	@since	2.0
 	 */
 
-	public Flag<?> getFlag (char c) throws InvalidFlagException {
-		return getFlag("-" + c);
+	public Option<?> getOption (char c) throws InvalidOptionException {
+		return getOption("-" + c);
 	}
 
 	private void processArgs () {
