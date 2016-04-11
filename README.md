@@ -6,7 +6,7 @@ A library of simple tools written in Java by me, which aim at providing a common
 The SimpleTools provides some utility classes which make common tasks, such as interpreting command line arguments (see com.satvik.cli)
 much simpler.
 
-##[Documentation](http://htmlpreview.github.io/?http://github.com/sahasatvik/SimpleTools/master/docs/index.html).
+##[Documentation](http://htmlpreview.github.io/?http://github.com/sahasatvik/SimpleTools/master/docs/index.html)
 The `docs/` folder in this repository, as well as in `SimpleToolsComplete.jar` contains an extensive documentation of all of the 
 features of every class in the library. You can start at `docs/index.html`.
 
