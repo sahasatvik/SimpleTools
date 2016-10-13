@@ -1,13 +1,13 @@
 
 package examples;
 
-import com.satvik.cli.*;
-import com.satvik.struct.*;
+import com.github.sahasatvik.cli.*;
+import com.github.sahasatvik.struct.*;
 
 public class ArgHandlerExample {
 	public static void help () {
 		System.out.println("ArgHandlerExample is a small program which displays multiplication tables.");
-		System.out.println("This program makes use of the com.satvik.cli library, which simplifies the retrieval of options and arguments.\n");
+		System.out.println("This program makes use of the com.github.sahasatvik.cli library, which simplifies the retrieval of options and arguments.\n");
 		System.out.println("Usage :	java ArgHandlerExample [-ht] [-s=<first multiplicand>] [-e=<last multiplicand>] multiplier \n");
 		System.out.println("	Arguments :");
 		System.out.println("		multiplier		: The number whose multiplication table is to be displayed");
