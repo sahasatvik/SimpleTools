@@ -18,4 +18,4 @@ There are two ways of using this library :
   &nbsp;&nbsp;&nbsp;&nbsp;On Windows systems : `javac -cp .;path/to/jar/SimpleTools.jar' sourcefile.java`<br>
   While executing your program, remember to add `SimpleTools.jar` to the classpath again, as follows :<br>
   &nbsp;&nbsp;&nbsp;&nbsp;On UNIX based systems : `java -cp '.:path/to/jar/SimpleTools.jar' sourcefile`<br>
-  &nbsp;&nbsp;&nbsp;&nbsp;On Windows systems : `java -cp '.;path/to/jar/SimpleTools.jar' sourcefile'`
+  &nbsp;&nbsp;&nbsp;&nbsp;On Windows systems : `java -cp '.;path/to/jar/SimpleTools.jar' sourcefile`
