@@ -15,7 +15,7 @@ There are two ways of using this library :
 
 2. **Using the `SimpleTools.jar` file :** download SimpleTools.jar and copy it to a location within your project, and import the required classes as mentioned earlier. While compiling, remember to add `SimpleTools.jar` to your classpath, as follows : <br>
   &nbsp;&nbsp;&nbsp;&nbsp;On UNIX based systems : `javac -cp '.:path/to/jar/SimpleTools.jar' sourcefile.java`<br>
-  &nbsp;&nbsp;&nbsp;&nbsp;On Windows systems : `javac -cp .;path/to/jar/SimpleTools.jar' sourcefile.java`<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;On Windows systems : `javac -cp '.;path/to/jar/SimpleTools.jar' sourcefile.java`<br>
   While executing your program, remember to add `SimpleTools.jar` to the classpath again, as follows :<br>
   &nbsp;&nbsp;&nbsp;&nbsp;On UNIX based systems : `java -cp '.:path/to/jar/SimpleTools.jar' sourcefile`<br>
   &nbsp;&nbsp;&nbsp;&nbsp;On Windows systems : `java -cp '.;path/to/jar/SimpleTools.jar' sourcefile`
