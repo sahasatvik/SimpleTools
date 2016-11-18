@@ -11,7 +11,7 @@ The `docs/` folder in this repository, as well as in `SimpleToolsComplete.jar` c
 ## How to Use this library in your Project
 There are two ways of using this library :
 
-1. **Using the uncompressed `.class` files :** simply copy the contents of `bin/` from the repository or `SimpleToolsComplete.jar into the your project directory, and import the required classes (eg. to import all of the classes in the `com/github/sahasatvik/cli` folder, use `import com.github.sahasatvik.cli.*;`. Compile as normal.
+1. **Using the uncompressed `.class` files :** simply copy the contents of `bin/` from the repository or `SimpleToolsComplete.jar` into the your project directory, and import the required classes (eg. to import all of the classes in the `com/github/sahasatvik/cli` folder, use `import com.github.sahasatvik.cli.*;`. Compile as normal.
 
 2. **Using the `SimpleTools.jar` file :** download SimpleTools.jar and copy it to a location within your project, and import the required classes as mentioned earlier. While compiling, remember to add `SimpleTools.jar` to your classpath, as follows : <br>
   &nbsp;&nbsp;&nbsp;&nbsp;On UNIX based systems : `javac -cp '.:path/to/jar/SimpleTools.jar' sourcefile.java`<br>
