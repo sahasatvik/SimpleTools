@@ -1,4 +1,6 @@
 #!/bin/bash
-jar ufv SimpleTools.jar -C bin .
-jar ufv SimpleToolsComplete.jar src docs -C bin .
+rm SimpleTools.jar
+rm SimpleToolsComplete.jar
+jar cf SimpleTools.jar -C bin .
+jar cf SimpleToolsComplete.jar src docs -C bin .
 rm *.tmp
