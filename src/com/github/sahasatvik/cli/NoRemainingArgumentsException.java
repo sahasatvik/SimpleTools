@@ -5,10 +5,10 @@ package com.github.sahasatvik.cli;
  * This is the class describing when no arguments remain in the argument queue in ArgHandler.
  *
  * 	@author		Satvik Saha
- * 	@version	1.0, 04/09/2016
+ * 	@version	0.1.0, 04/09/2016
  * 	@see		com.github.sahasatvik.cli.ArgumentException
  * 	@see		com.github.sahasatvik.cli.ArgHandlerException
- * 	@since		1.0
+ * 	@since		0.1.0
  * 
  */
 
@@ -17,7 +17,7 @@ public class NoRemainingArgumentsException extends ArgumentException {
 	/**
 	 * Constructor of NoRemainingArgumentsException. 
 	 *
-	 * 	@since	1.0
+	 * 	@since	0.1.0
 	 */
 
 	public NoRemainingArgumentsException () {

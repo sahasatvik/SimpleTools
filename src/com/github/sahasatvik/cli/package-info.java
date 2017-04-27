@@ -4,8 +4,8 @@
  * command line arguments.
  *
  * 	@author		Satvik Saha
- * 	@version	1.3, 04/04/2016
- * 	@since		1.0
+ * 	@version	0.2.0, 04/09/2016
+ * 	@since		0.1.0
  */
 
 package com.github.sahasatvik.cli;

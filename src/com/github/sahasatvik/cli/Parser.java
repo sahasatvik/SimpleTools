@@ -26,9 +26,9 @@ package com.github.sahasatvik.cli;
  * }</pre>
  *
  * 	@author		Satvik Saha
- * 	@version	1.1, 04/07/2016
+ * 	@version	0.1.1, 04/07/2016
  * 	@param	<T>	the target type into which strings are to be parsed 
- * 	@since		1.0
+ * 	@since		0.1.0
  */
 
 @FunctionalInterface
@@ -43,7 +43,7 @@ public interface Parser<T> {
 	 * 	@param	s		the string to be parsed 
 	 * 	@return			an object of the same type as the type parameter
 	 * 	@throws	Exception	thrown if the implementation of this method throws an Exception
-	 * 	@since	1.1
+	 * 	@since	0.1.1
 	 */
 
 	public T parse (String s) throws Exception;
@@ -59,7 +59,7 @@ public interface Parser<T> {
 	 * 	@param	clazz		the class of the target type - use T.class
 	 * 	@return			the converted string in the form of T
 	 * 	@throws	NumberFormatException	thrown if the target class is not recognized
-	 * 	@since	1.0
+	 * 	@since	0.1.0
 	 */
 
 	public static <T> T parse (String rawValue, Class<T> clazz) throws NumberFormatException {

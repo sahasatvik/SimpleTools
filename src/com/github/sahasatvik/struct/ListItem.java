@@ -6,9 +6,9 @@ package com.github.sahasatvik.struct;
  * linked list.
  *
  * 	@author		Satvik Saha
- * 	@version	1.0, 04/07/2016
+ * 	@version	0.1.0, 04/07/2016
  * 	@param	<T>	the type of object the ListItem contains		
- * 	@since		1.0
+ * 	@since		0.1.0
  */
 
 public class ListItem<T> {
@@ -30,7 +30,7 @@ public class ListItem<T> {
 	 * This constructor assigns an item to the ListItem.
 	 *
 	 * 	@param	item		the item to be contained in the ListItem
-	 * 	@since	1.0
+	 * 	@since	0.1.0
 	 */
 
 	public ListItem (T item) {
@@ -50,7 +50,7 @@ public class ListItem<T> {
 	 * 	@param	<T>		the type of both ListItems
 	 * 	@param	left		the ListItem to stay on the left
 	 * 	@param	right		the ListItem to stay on the right
-	 * 	@since	1.0
+	 * 	@since	0.1.0
 	 */
 
 	public static <T> void link (ListItem<T> left, ListItem<T> right) {

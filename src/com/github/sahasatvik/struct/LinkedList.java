@@ -6,9 +6,9 @@ package com.github.sahasatvik.struct;
  * be pushed and popped into and out of the list.
  *
  * 	@author		Satvik Saha
- * 	@version	1.0, 04/07/2016
- * 	@param	<T>	the type of Items the LinkeeList contains		
- * 	@since		1.0
+ * 	@version	0.1.0, 04/07/2016
+ * 	@param	<T>	the type of Items the LinkedList contains		
+ * 	@since		0.1.0
  */
 
 public class LinkedList<T> {
@@ -24,7 +24,7 @@ public class LinkedList<T> {
 	/**
 	 * This constructor initializes some of the essential fields in the list.
 	 *
-	 * 	@since	1.0
+	 * 	@since	0.1.0
 	 */
 
 	public LinkedList () {
@@ -45,7 +45,7 @@ public class LinkedList<T> {
 	 * 	@return			the ListItem at index
 	 * 	@throws	com.github.sahasatvik.struct.ListIndexOutOfBoundsException	thrown if the index is out of bounds
 	 * 	@see	com.github.sahasatvik.struct.ListItem
-	 * 	@since	1.0
+	 * 	@since	0.1.0
 	 */
 
 	public ListItem<T> getListItemAt (int index) throws ListIndexOutOfBoundsException {
@@ -73,7 +73,7 @@ public class LinkedList<T> {
 	 * 	@param	index		the index from which the item is to be fetched
 	 * 	@return			the item at index 
 	 * 	@throws	com.github.sahasatvik.struct.ListIndexOutOfBoundsException	thrown if the index is out of bounds
-	 * 	@since	1.0
+	 * 	@since	0.1.0
 	 */
 	public T getItemAt (int index) throws ListIndexOutOfBoundsException {
 		ListItem<T> t = getListItemAt(index);
@@ -90,7 +90,7 @@ public class LinkedList<T> {
 	 * number of items in it.
 	 *
 	 * 	@return			the number of items in the list
-	 * 	@since	1.0
+	 * 	@since	0.1.0
 	 */
 
 	public int getSize () {
@@ -112,7 +112,7 @@ public class LinkedList<T> {
 	 * 	@param	item		the item to be pushed to the index
 	 * 	@param	index		the index at which the item is to be placed
 	 * 	@throws	com.github.sahasatvik.struct.ListIndexOutOfBoundsException	thrown if the index is out of bounds
-	 * 	@since	1.0
+	 * 	@since	0.1.0
 	 */
 
 	public void pushItemAt (T item, int index) throws ListIndexOutOfBoundsException {
@@ -137,7 +137,7 @@ public class LinkedList<T> {
 	 * 	@param	index		the index of the item to be popped.
 	 * 	@return			the item at the given index
 	 * 	@throws	com.github.sahasatvik.struct.ListException	thrown if the index is out of bounds
-	 * 	@since	1.0
+	 * 	@since	0.1.0
 	 */
 
 	public T popItemAt (int index) throws ListException {

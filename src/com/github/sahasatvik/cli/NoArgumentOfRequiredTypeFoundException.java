@@ -6,10 +6,10 @@ package com.github.sahasatvik.cli;
  * Exception is thrown when no arguments of the required type, or parsable by the provided parser are found.
  *
  * 	@author		Satvik Saha
- * 	@version	1.0, 04/09/2016
+ * 	@version	0.1.0, 04/09/2016
  * 	@see		com.github.sahasatvik.cli.ArgumentException
  * 	@see		com.github.sahasatvik.cli.ArgHandlerException
- * 	@since		1.0
+ * 	@since		0.1.0
  * 
  */
 
@@ -19,7 +19,7 @@ public class NoArgumentOfRequiredTypeFoundException extends ArgumentException {
 	 * Constructor of NoArgumentOfRequiredTypeFoundException, to be used when a class type is provided.
 	 *	
 	 * 	@param	clazz		the class provided in question
-	 * 	@since	1.0
+	 * 	@since	0.1.0
 	 */
 
 	public NoArgumentOfRequiredTypeFoundException (Class<?> clazz) {
@@ -30,7 +30,7 @@ public class NoArgumentOfRequiredTypeFoundException extends ArgumentException {
 	 * Constructor of NoArgumentOfRequiredTypeFoundException, to be used when a Parser has been provided.
 	 *
 	 * 	@param	parser		the parser provided
-	 * 	@since	1.0
+	 * 	@since	0.1.0
 	 */
 
 	public NoArgumentOfRequiredTypeFoundException (Parser<?> parser) {

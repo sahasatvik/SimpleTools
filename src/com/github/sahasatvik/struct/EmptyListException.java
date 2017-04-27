@@ -6,9 +6,9 @@ package com.github.sahasatvik.struct;
  * from an empty list.
  *
  * 	@author		Satvik Saha
- * 	@version	1.0, 04/07/2016
+ * 	@version	0.1.0, 04/07/2016
  * 	@see		com.github.sahasatvik.struct.ListException
- * 	@since		1.0
+ * 	@since		0.1.0
  */
 
 public class EmptyListException extends ListException {
@@ -16,7 +16,7 @@ public class EmptyListException extends ListException {
 	/** 
 	 * Constructor of EmptyListException.
 	 * 	
-	 * 	@since	1.0
+	 * 	@since	0.1.0
 	 */
 
 	public EmptyListException () {

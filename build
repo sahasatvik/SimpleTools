@@ -1,4 +1,4 @@
 #!/bin/bash
-rm bin -R
+rm -r bin
 mkdir bin
 javac -parameters -d bin/ $(find ./src/* | grep .java | grep -v .swp)

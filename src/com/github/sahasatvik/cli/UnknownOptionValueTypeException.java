@@ -6,10 +6,10 @@ package com.github.sahasatvik.cli;
  * Exception is thrown when a Option value type class is not recognized.
  *
  * 	@author		Satvik Saha
- * 	@version	1.0, 04/09/2016
+ * 	@version	0.1.0, 04/09/2016
  * 	@see		com.github.sahasatvik.cli.OptionException
  * 	@see		com.github.sahasatvik.cli.ArgHandlerException
- * 	@since		1.0
+ * 	@since		0.1.0
  * 
  */
 
@@ -20,7 +20,7 @@ public class UnknownOptionValueTypeException extends OptionException {
 	 *
 	 * 	@param	option		the option in question
 	 * 	@param	clazz		the class in question
-	 * 	@since	1.0
+	 * 	@since	0.1.0
 	 */
 
 	public UnknownOptionValueTypeException (Option<?> option, Class<?> clazz) {

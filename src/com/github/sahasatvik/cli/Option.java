@@ -68,10 +68,10 @@ package com.github.sahasatvik.cli;
  * <p>
  *
  * 	@author		Satvik Saha
- * 	@version	1.2, 04/08/2016
+ * 	@version	0.1.2, 04/08/2016
  * 	@param	<T>	the type of value the Option can hold - use a raw type if you need a normal Option without a value
  * 	@see		com.github.sahasatvik.cli.ArgHandler
- * 	@since		1.0
+ * 	@since		0.1.0
  */
 
 public class Option<T> {
@@ -105,7 +105,7 @@ public class Option<T> {
 	 * 	@param	shortForm	the short form of the Option
 	 * 	@param	longForm	the long form of the Option
 	 * 	@throws	com.github.sahasatvik.cli.IncorrectOptionSyntaxException	thrown if there is a syntax error while invoking the constructor
-	 * 	@since	1.0
+	 * 	@since	0.1.0
 	 */
 
 	public Option (String shortForm, String longForm) throws IncorrectOptionSyntaxException {
@@ -133,7 +133,7 @@ public class Option<T> {
 	 *
 	 * 	@param	canHaveValue		true/false, depending on whther the Option can be assigned a value
 	 * 	@return				this Option
-	 * 	@since	1.2
+	 * 	@since	0.1.2
 	 */
 
 	public Option<T> canHaveValue (boolean canHaveValue) {
@@ -161,7 +161,7 @@ public class Option<T> {
 	 * 	@return				this Option
 	 * 	@throws	com.github.sahasatvik.cli.UnknownOptionValueTypeException		thrown if valueTypeClass does not belong to the list of accepted classes
 	 * 	@throws	com.github.sahasatvik.cli.CannotParseValueOfOptionException	thrown if the Option cannot carry a value
-	 * 	@since	1.0
+	 * 	@since	0.1.0
 	 */
 
 	public Option<T> setValueType (Class<T> valueTypeClass) throws UnknownOptionValueTypeException, CannotParseValueOfOptionException {
@@ -196,7 +196,7 @@ public class Option<T> {
 	 * 	@param	parser			the parser to be used while parsing the Option value
 	 * 	@return				this Option
 	 * 	@throws	com.github.sahasatvik.cli.CannotParseValueOfOptionException	thrown if canHaveValue is false
-	 * 	@since	1.2
+	 * 	@since	0.1.2
 	 */
 
 	public Option<T> useParser (Parser<T> parser) throws CannotParseValueOfOptionException {
@@ -216,7 +216,7 @@ public class Option<T> {
 	 * 	
 	 * 	@param	defaultValue		the defaultValue assigned to the Option
 	 * 	@return				this Option
-	 * 	@since	1.0
+	 * 	@since	0.1.0
 	 */
 
 	public Option<T> setDefaultValue (T defaultValue) {
@@ -230,7 +230,7 @@ public class Option<T> {
 	 * This method sets the state of the Option to the state passed to it.
 	 *
 	 * 	@param	state			the state to which the Option is to be set
-	 * 	@since	1.1
+	 * 	@since	0.1.1
 	 */
 
 	public void setState (boolean state) {
@@ -243,7 +243,7 @@ public class Option<T> {
 	 * This method returns the current state of the Option.
 	 *
 	 * 	@return				the current state of the Option
-	 * 	@since	1.1
+	 * 	@since	0.1.1
 	 */
 
 	public boolean getState () {
@@ -256,7 +256,7 @@ public class Option<T> {
 	 * This method sets the Option value to the accepted parameter.
 	 *
 	 * 	@param	value			the value to be assigned to the Option
-	 * 	@since	1.1
+	 * 	@since	0.1.1
 	 */
 
 	public void setValue (T value) {
@@ -270,7 +270,7 @@ public class Option<T> {
 	 *
 	 * 	@param	rawValue		the raw String to be processed into an Object of class valueType
 	 * 	@throws	com.github.sahasatvik.cli.CannotParseValueOfOptionException	thrown if there is an error in prsing the raw String, or the Option cannot carry  value
-	 * 	@since	1.0
+	 * 	@since	0.1.0
 	 */
 
 	public void parseValue (String rawValue) throws CannotParseValueOfOptionException {
@@ -297,7 +297,7 @@ public class Option<T> {
 	 * 	@return				the value stored in Option
 	 * 	@throws	com.github.sahasatvik.cli.MissingOptionValueException	thrown if the Option is empty
 	 * 	@throws	com.github.sahasatvik.cli.CannotParseValueOfOptionException	thrown if the Option cannot carry a value
-	 * 	@since	1.0
+	 * 	@since	0.1.0
 	 */
 
 	public T getValue () throws CannotParseValueOfOptionException, MissingOptionValueException {
@@ -316,7 +316,7 @@ public class Option<T> {
 	 *
 	 * 	@param	rawValue		the raw string from which the value is to be extracted
 	 * 	@return				the value present after the "=" symbol in rawValue
-	 * 	@since	1.2
+	 * 	@since	0.1.2
 	 */
 
 	public static String extractValue (String rawValue) {
@@ -331,7 +331,7 @@ public class Option<T> {
 	 *
 	 * 	@param	s			the string to be matched against the Option
 	 * 	@return				true/false depending on whether s is the long or short form of the Option
-	 * 	@since	1.2
+	 * 	@since	0.1.2
 	 */
 
 	public boolean matches (String s) {
@@ -347,7 +347,7 @@ public class Option<T> {
 	 *
 	 * 	@param	c			the character to be matched against the Option
 	 * 	@return				true/false depending on whether c is the short form of the Option
-	 * 	@since	1.2
+	 * 	@since	0.1.2
 	 */
 
 	public boolean matches (char c) {

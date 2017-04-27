@@ -86,8 +86,8 @@ import com.github.sahasatvik.struct.*;
  * }</pre>
  * 	
  * 	@author		Satvik Saha
- * 	@version	2.0, 04/09/2016
- * 	@since		1.0
+ * 	@version	0.2.0, 04/09/2016
+ * 	@since		0.1.0
  */ 	
 
 public class ArgHandler {
@@ -102,7 +102,7 @@ public class ArgHandler {
 	 * ArgHandler. The arguments will be processed, and can be retrieved as if they were in a Queue.
 	 *
 	 * 	@param	args			the array of arguments to be processed
-	 * 	@since	1.0
+	 * 	@since	0.1.0
 	 */
 
 	public ArgHandler (String[] args) {
@@ -131,7 +131,7 @@ public class ArgHandler {
 	 * 	@return				this ArgHandler
 	 * 	@throws	com.github.sahasatvik.cli.InvalidOptionException	thrown if an invalid Option is found
 	 *	@throws	com.github.sahasatvik.cli.OptionException		thrown if a value assigned to a Option cannot be parsed properly
-	 *	@since	2.0
+	 *	@since	0.2.0
 	 */
 	
 	public ArgHandler useOptions (Option<?> ... options) throws OptionException {
@@ -177,7 +177,7 @@ public class ArgHandler {
 	 * 	@return				the Option matching 's', if it exists
 	 * 	@throws	com.github.sahasatvik.cli.InvalidOptionException	thrown if the Option matching 's' does not exist
 	 * 	@see	#useOptions(Option[])
-	 * 	@since	2.0
+	 * 	@since	0.2.0
 	 */
 
 	public Option<?> getOption (String s) throws InvalidOptionException {
@@ -206,7 +206,7 @@ public class ArgHandler {
 	 * 	@return				the Option matching 'c', if it exists
 	 * 	@throws	com.github.sahasatvik.cli.InvalidOptionException	thrown if the Option matching 'c' does not exist
 	 * 	@see	#getOption(String)
-	 * 	@since	2.0
+	 * 	@since	0.2.0
 	 */
 
 	public Option<?> getOption (char c) throws InvalidOptionException {
@@ -234,7 +234,7 @@ public class ArgHandler {
 	 * Returns the number of arguments currently in the queue.
 	 *
 	 * 	@return				number of arguments in the queue
-	 * 	@since	1.2
+	 * 	@since	0.1.2
 	 */
 
 	public int argCount () {
@@ -247,7 +247,7 @@ public class ArgHandler {
 	 * Returns true if the arguments queue still contains arguments.
 	 *
 	 * 	@return				false, if all arguments have been popped out of the queue
-	 * 	@since	1.2
+	 * 	@since	0.1.2
 	 */
 
 	public boolean hasMoreArgs () {
@@ -261,7 +261,7 @@ public class ArgHandler {
 	 *
 	 * 	@return				first argument in the queue
 	 * 	@throws	com.github.sahasatvik.cli.NoRemainingArgumentsException	thrown if no arguments are left in the queue 
-	 * 	@since	1.2
+	 * 	@since	0.1.2
 	 */
 
 	public String next () throws NoRemainingArgumentsException {
@@ -286,7 +286,7 @@ public class ArgHandler {
 	 * 	@throws	com.github.sahasatvik.cli.NoRemainingArgumentsException	thrown if no argument is found
 	 * 	@throws	com.github.sahasatvik.cli.NoArgumentOfRequiredTypeFoundException	thrown if no parsable arguments are left
 	 * 	@see	com.github.sahasatvik.cli.Argument#getValue(Class)
-	 * 	@since	2.0
+	 * 	@since	0.2.0
 	 */
 	
 	public <T> T next (Class<T> clazz) throws NoRemainingArgumentsException, NoArgumentOfRequiredTypeFoundException {
@@ -323,7 +323,7 @@ public class ArgHandler {
 	 * 	@throws	com.github.sahasatvik.cli.NoArgumentOfRequiredTypeFoundException	thrown if no parsable arguments are left
 	 * 	@see	com.github.sahasatvik.cli.Argument#getValue(Parser)
 	 * 	@see	com.github.sahasatvik.cli.Parser#parse(String)
-	 * 	@since	2.0
+	 * 	@since	0.2.0
 	 */
 
 	public <T> T next (Parser<T> parser) throws NoRemainingArgumentsException, NoArgumentOfRequiredTypeFoundException {

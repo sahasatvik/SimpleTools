@@ -6,9 +6,9 @@ package com.github.sahasatvik.struct;
  * index is attempted to be accessed.
  *
  * 	@author		Satvik Saha
- * 	@version	1.0, 04/07/2016
+ * 	@version	0.1.0, 04/07/2016
  * 	@see		com.github.sahasatvik.struct.ListException
- * 	@since		1.0
+ * 	@since		0.1.0
  */
 
 public class ListIndexOutOfBoundsException extends ListException {
@@ -17,7 +17,7 @@ public class ListIndexOutOfBoundsException extends ListException {
 	 * Constructor of ListIndexOutOfBounds.
 	 * 	
 	 * 	@param	index		the index which is out of bounds
-	 * 	@since	1.0
+	 * 	@since	0.1.0
 	 */
 
 	public ListIndexOutOfBoundsException (int index) {
